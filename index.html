@@ -231,8 +231,8 @@
         else if(tech === 'red') { glowColor = '#ff3333'; nameEl.innerText = "Reverse Cursed Technique: Red"; bloomPass.strength = 2.5; }
         else { glowColor = '#00ffff'; nameEl.innerText = "Neutral State"; bloomPass.strength = 1.0; }
 
-        // Play/stop shrine audio based on domain expansion gesture
-        if (tech === 'shrine') {
+        // Play/stop shrine audio based on infinite void gesture
+        if (tech === 'void') {
             shrineAudio.currentTime = 0;
             shrineAudio.play().catch(() => {});
         } else {
