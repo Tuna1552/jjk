@@ -86,6 +86,7 @@
     </div>
 
     <audio id="shrine-audio" src="audio.mp3" loop preload="auto"></audio>
+    <audio id="malevolent-audio" src="shrine_audio.mp3" loop preload="auto"></audio>
 
 <script type="module">
     import * as THREE from 'three';
@@ -180,12 +181,17 @@
 
     // Shrine audio
     const shrineAudio = document.getElementById('shrine-audio');
+    const malevolentAudio = document.getElementById('malevolent-audio');
 
     // Unlock audio playback on first user interaction (autoplay policy)
     function unlockAudio() {
         shrineAudio.play().then(() => {
             shrineAudio.pause();
             shrineAudio.currentTime = 0;
+        }).catch(() => {});
+        malevolentAudio.play().then(() => {
+            malevolentAudio.pause();
+            malevolentAudio.currentTime = 0;
         }).catch(() => {});
         window.removeEventListener('click', unlockAudio);
         window.removeEventListener('touchstart', unlockAudio);
@@ -231,13 +237,21 @@
         else if(tech === 'red') { glowColor = '#ff3333'; nameEl.innerText = "Reverse Cursed Technique: Red"; bloomPass.strength = 2.5; }
         else { glowColor = '#00ffff'; nameEl.innerText = "Neutral State"; bloomPass.strength = 1.0; }
 
-        // Play/stop shrine audio based on infinite void gesture
+        // Play/stop audio based on technique
         if (tech === 'void') {
             shrineAudio.currentTime = 0;
             shrineAudio.play().catch(() => {});
         } else {
             shrineAudio.pause();
             shrineAudio.currentTime = 0;
+        }
+
+        if (tech === 'shrine') {
+            malevolentAudio.currentTime = 0;
+            malevolentAudio.play().catch(() => {});
+        } else {
+            malevolentAudio.pause();
+            malevolentAudio.currentTime = 0;
         }
 
         for(let i=0; i<COUNT; i++) {
