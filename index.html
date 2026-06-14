@@ -85,6 +85,8 @@
         <canvas id="output_canvas"></canvas>
     </div>
 
+    <audio id="shrine-audio" src="audio.mp3" loop preload="auto"></audio>
+
 <script type="module">
     import * as THREE from 'three';
     import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
@@ -176,6 +178,23 @@
     const canvasCtx = canvasElement.getContext('2d');
     let glowColor = '#00ffff';
 
+    // Shrine audio
+    const shrineAudio = document.getElementById('shrine-audio');
+
+    // Unlock audio playback on first user interaction (autoplay policy)
+    function unlockAudio() {
+        shrineAudio.play().then(() => {
+            shrineAudio.pause();
+            shrineAudio.currentTime = 0;
+        }).catch(() => {});
+        window.removeEventListener('click', unlockAudio);
+        window.removeEventListener('touchstart', unlockAudio);
+        window.removeEventListener('keydown', unlockAudio);
+    }
+    window.addEventListener('click', unlockAudio);
+    window.addEventListener('touchstart', unlockAudio);
+    window.addEventListener('keydown', unlockAudio);
+
     const hands = new Hands({locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`});
     hands.setOptions({ maxNumHands: 2, modelComplexity: 1, minDetectionConfidence: 0.7 });
 
@@ -211,6 +230,15 @@
         else if(tech === 'void') { glowColor = '#00ffff'; nameEl.innerText = "Domain Expansion: Infinite Void"; bloomPass.strength = 2.0; }
         else if(tech === 'red') { glowColor = '#ff3333'; nameEl.innerText = "Reverse Cursed Technique: Red"; bloomPass.strength = 2.5; }
         else { glowColor = '#00ffff'; nameEl.innerText = "Neutral State"; bloomPass.strength = 1.0; }
+
+        // Play/stop shrine audio based on domain expansion gesture
+        if (tech === 'shrine') {
+            shrineAudio.currentTime = 0;
+            shrineAudio.play().catch(() => {});
+        } else {
+            shrineAudio.pause();
+            shrineAudio.currentTime = 0;
+        }
 
         for(let i=0; i<COUNT; i++) {
             let p;
