@@ -88,6 +88,7 @@
     <audio id="shrine-audio" src="audio.mp3" loop preload="auto"></audio>
     <audio id="malevolent-audio" src="shrine_audio.mp3" loop preload="auto"></audio>
     <audio id="red-audio" src="red_audio.mp3" loop preload="auto"></audio>
+    <audio id="purple-audio" src="purple_audio.mp3" loop preload="auto"></audio>
 
 <script type="module">
     import * as THREE from 'three';
@@ -184,6 +185,7 @@
     const shrineAudio = document.getElementById('shrine-audio');
     const malevolentAudio = document.getElementById('malevolent-audio');
     const redAudio = document.getElementById('red-audio');
+    const purpleAudio = document.getElementById('purple-audio');
 
     // Unlock audio playback on first user interaction (autoplay policy)
     function unlockAudio() {
@@ -198,6 +200,10 @@
         redAudio.play().then(() => {
             redAudio.pause();
             redAudio.currentTime = 0;
+        }).catch(() => {});
+        purpleAudio.play().then(() => {
+            purpleAudio.pause();
+            purpleAudio.currentTime = 0;
         }).catch(() => {});
         window.removeEventListener('click', unlockAudio);
         window.removeEventListener('touchstart', unlockAudio);
@@ -266,6 +272,14 @@
         } else {
             redAudio.pause();
             redAudio.currentTime = 0;
+        }
+
+        if (tech === 'purple') {
+            purpleAudio.currentTime = 0;
+            purpleAudio.play().catch(() => {});
+        } else {
+            purpleAudio.pause();
+            purpleAudio.currentTime = 0;
         }
 
         for(let i=0; i<COUNT; i++) {
